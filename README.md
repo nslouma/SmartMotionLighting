@@ -4,6 +4,55 @@
 
 ---
 
+## 🇬🇧 English
+
+### Features
+
+- **Two sensor types:**
+  - **Smart (mmWave/radar):** Light stays on while presence is detected. Turns off immediately when presence clears.
+  - **PIR (fixed delay):** Light turns on on motion and off after a fixed delay, regardless of continued presence.
+- **Light or switch:** Works with both `light.*` and `switch.*` entities.
+- **Optional luminance check:** If a luminance sensor is configured, the light only turns on when motion is detected and illuminance is below the threshold.
+- **Manual override:** An `input_boolean` disables the automation when `on` (e.g. for manual light control).
+- **Re-arm (Smart mode):** If the light is manually turned off while motion is still present, it turns back on after a configurable delay.
+
+### Requirements
+
+- Home Assistant (recent version)
+- A `binary_sensor` for presence/motion
+- A `light` or `switch` entity
+- An `input_boolean` for manual override
+- Optional: a `sensor` for illuminance (lux)
+
+## 🚀 Add to Home Assistant
+
+[![Open your Home Assistant instance and show the blueprint import dialog](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://raw.githubusercontent.com/USERNAME/REPO/main/SmartMotionLighting.yaml)
+
+> Replace `USERNAME/REPO` with your GitHub username and repository name.
+
+### Installation
+
+1. Copy `SmartMotionLighting.yaml` to your Home Assistant `config/blueprints/automation/` folder.
+2. Restart Home Assistant.
+3. Go to **Settings → Automations & Scenes → Blueprints**.
+4. Select **SmartMotionLighting** and create a new automation.
+5. Configure the input fields for your setup.
+
+### Input Fields
+
+| Field | Type | Description | Default |
+|-------|------|-------------|---------|
+| Sensor type | Select | `smart` or `pir` | `smart` |
+| Presence sensor | Entity (`binary_sensor`) | Presence/motion sensor | – |
+| Light / Switch | Entity (`light`, `switch`) | Entity to switch | – |
+| Manual override | Entity (`input_boolean`) | Disables automation when `on` | – |
+| Luminance sensor (optional) | Entity (`sensor`) | Illuminance sensor | – |
+| Luminance threshold | Number | Threshold in lux | 25 |
+| Smart retrigger delay | Number | Delay before re-arm (Smart mode) | 1 second |
+| PIR off delay | Number | Delay before turn off (PIR mode) | 15 seconds |
+
+---
+
 ## 🇩🇿 Deutsch
 
 ### Funktionen
@@ -44,65 +93,6 @@
 | Luminance threshold | Number | Schwellwert in Lux | 25 |
 | Smart retrigger delay | Number | Verzögerung vor Wiedereinschalten (Smart) | 1 Sekunde |
 | PIR off delay | Number | Verzögerung vor Ausschalten (PIR) | 15 Sekunden |
-
-### Trace-Fehler ignorieren
-
-Im Automatisierungs-Trace kann unter Umständen ein Fehler wie *"Cannot read properties of undefined (reading 'includes')"* erscheinen. Das ist ein reines Home Assistant UI-Anzeigeproblem bei Blueprint-Triggern und hat keinen Einfluss auf die Funktion der Automatisierung.
-
----
-
-## 🇬🇧 English
-
-### Features
-
-- **Two sensor types:**
-  - **Smart (mmWave/radar):** Light stays on while presence is detected. Turns off immediately when presence clears.
-  - **PIR (fixed delay):** Light turns on on motion and off after a fixed delay, regardless of continued presence.
-- **Light or switch:** Works with both `light.*` and `switch.*` entities.
-- **Optional luminance check:** If a luminance sensor is configured, the light only turns on when motion is detected and illuminance is below the threshold.
-- **Manual override:** An `input_boolean` disables the automation when `on` (e.g. for manual light control).
-- **Re-arm (Smart mode):** If the light is manually turned off while motion is still present, it turns back on after a configurable delay.
-
-### Requirements
-
-- Home Assistant (recent version)
-- A `binary_sensor` for presence/motion
-- A `light` or `switch` entity
-- An `input_boolean` for manual override
-- Optional: a `sensor` for illuminance (lux)
-
-### Installation
-
-1. Copy `SmartMotionLighting.yaml` to your Home Assistant `config/blueprints/automation/` folder.
-2. Restart Home Assistant.
-3. Go to **Settings → Automations & Scenes → Blueprints**.
-4. Select **SmartMotionLighting** and create a new automation.
-5. Configure the input fields for your setup.
-
-### Input Fields
-
-| Field | Type | Description | Default |
-|-------|------|-------------|---------|
-| Sensor type | Select | `smart` or `pir` | `smart` |
-| Presence sensor | Entity (`binary_sensor`) | Presence/motion sensor | – |
-| Light / Switch | Entity (`light`, `switch`) | Entity to switch | – |
-| Manual override | Entity (`input_boolean`) | Disables automation when `on` | – |
-| Luminance sensor (optional) | Entity (`sensor`) | Illuminance sensor | – |
-| Luminance threshold | Number | Threshold in lux | 25 |
-| Smart retrigger delay | Number | Delay before re-arm (Smart mode) | 1 second |
-| PIR off delay | Number | Delay before turn off (PIR mode) | 15 seconds |
-
-### Trace error
-
-A trace error like *"Cannot read properties of undefined (reading 'includes')"* may appear. This is a Home Assistant UI display issue with blueprint triggers and does not affect automation functionality.
-
----
-
-## 🚀 Add to Home Assistant
-
-[![Open your Home Assistant instance and show the blueprint import dialog](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://raw.githubusercontent.com/USERNAME/REPO/main/SmartMotionLighting.yaml)
-
-> Replace `USERNAME/REPO` with your GitHub username and repository name.
 
 ---
 
