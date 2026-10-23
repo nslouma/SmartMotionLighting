@@ -1,0 +1,224 @@
+blueprint:
+  name: SmartMotionLighting
+  description: >
+    Smart motion-activated lighting.
+    Supports two sensor types:
+    - Smart (mmWave/radar): light stays on as long as presence is detected,
+      presence_off switches the light off immediately.
+    - PIR: light turns on for a fixed adjustable delay after motion, then off.
+    Includes a manual override so the light is not fought when controlled by hand,
+    and automatically re-arms after a manually switched-off light is turned back on
+    while motion is still present.
+    Works with both light.* and switch.* entities.
+    No separate motion-present helper required; the motion sensor state is read
+    directly.
+  domain: automation
+  input:
+    sensor_type:
+      name: Sensor type
+      description: >
+        Smart: light stays on while presence is detected (presence_off turns it off).
+        PIR: light turns on for a fixed delay after motion, then off regardless of
+        continued presence.
+      selector:
+        select:
+          options:
+            - label: Smart (mmWave/radar)
+              value: smart
+            - label: PIR (fixed delay)
+              value: pir
+      default: smart
+    motion_sensor:
+      name: Presence sensor
+      description: Binary sensor that reports presence/motion.
+      selector:
+        entity:
+          domain: [binary_sensor]
+    light_entity:
+      name: Light / Switch
+      description: Light or switch entity to switch on and off.
+      selector:
+        entity:
+          domain: [light, switch]
+    manual_override:
+      name: Manual override
+      description: Input boolean that disables automatic control when on.
+      selector:
+        entity:
+          domain: [input_boolean]
+    luminance_sensor:
+      name: Luminance sensor (optional)
+      description: >
+        Optional illuminance sensor. The light is only turned on by motion when the
+        measured value is below the threshold. Leave empty to disable luminance gating.
+      selector:
+        entity:
+          domain: [sensor]
+    luminance_threshold:
+      name: Luminance threshold
+      description: >
+        Turn the light on only when illuminance is below this value (lux). Only used
+        when a luminance sensor is configured.
+      selector:
+        number:
+          min: 0
+          max: 100000
+          unit_of_measurement: "lux"
+      default: 25
+    retrigger_delay:
+      name: Smart retrigger delay
+      description: >
+        (Smart mode only) Seconds to wait before turning the light back on after it
+        was manually switched off while motion is still present.
+      selector:
+        number:
+          min: 0
+          max: 300
+          unit_of_measurement: "seconds"
+      default: 1
+    pir_delay:
+      name: PIR off delay
+      description: >
+        (PIR mode only) Seconds the light stays on after motion was last detected
+        before it is switched off automatically.
+      selector:
+        number:
+          min: 1
+          max: 3600
+          unit_of_measurement: "seconds"
+      default: 15
+mode: restart
+variables:
+  sensor_type: !input sensor_type
+  lum_sensor: !input luminance_sensor
+  lum_threshold: !input luminance_threshold
+trigger:
+  - platform: state
+    entity_id: !input motion_sensor
+    to: "on"
+    id: presence_on
+  - platform: state
+    entity_id: !input motion_sensor
+    to: "off"
+    id: presence_off
+  - platform: state
+    entity_id: !input light_entity
+    to: "off"
+    id: light_turned_off
+  - platform: state
+    entity_id: !input light_entity
+    to: "on"
+    id: light_turned_on
+condition: []
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: presence_on
+          - condition: template
+            value_template: "{{ sensor_type == 'smart' }}"
+          - condition: state
+            entity_id: !input manual_override
+            state: "off"
+          - condition: template
+            value_template: >-
+              {% set sensor = lum_sensor %}
+              {% set threshold = lum_threshold | float(25) %}
+              {% if sensor is none or sensor | string | length == 0 %}
+                true
+              {% else %}
+                {{ states(sensor) | float(999) < threshold }}
+              {% endif %}
+        sequence:
+          - action: homeassistant.turn_on
+            target:
+              entity_id: !input light_entity
+      - conditions:
+          - condition: trigger
+            id: presence_off
+          - condition: state
+            entity_id: !input manual_override
+            state: "off"
+          - condition: template
+            value_template: "{{ sensor_type == 'smart' }}"
+        sequence:
+          - action: homeassistant.turn_off
+            target:
+              entity_id: !input light_entity
+      - conditions:
+          - condition: trigger
+            id: light_turned_off
+          - condition: state
+            entity_id: !input motion_sensor
+            state: "on"
+          - condition: state
+            entity_id: !input manual_override
+            state: "off"
+        sequence:
+          - delay:
+              seconds: !input retrigger_delay
+          - action: homeassistant.turn_on
+            target:
+              entity_id: !input light_entity
+          - action: input_boolean.turn_on
+            target:
+              entity_id: !input manual_override
+      - conditions:
+          - condition: trigger
+            id: light_turned_off
+          - condition: state
+            entity_id: !input manual_override
+            state: "on"
+        sequence:
+          - action: homeassistant.turn_off
+            target:
+              entity_id: !input light_entity
+          - action: input_boolean.turn_off
+            target:
+              entity_id: !input manual_override
+      - conditions:
+          - condition: trigger
+            id: light_turned_on
+          - condition: state
+            entity_id: !input manual_override
+            state: "off"
+          - condition: state
+            entity_id: !input motion_sensor
+            state: "off"
+        sequence:
+          - action: input_boolean.turn_on
+            target:
+              entity_id: !input manual_override
+      - conditions:
+          - condition: trigger
+            id: presence_on
+          - condition: template
+            value_template: "{{ sensor_type == 'pir' }}"
+          - condition: state
+            entity_id: !input manual_override
+            state: "off"
+          - condition: template
+            value_template: >-
+              {% set sensor = lum_sensor %}
+              {% set threshold = lum_threshold | float(25) %}
+              {% if sensor is none or sensor | string | length == 0 %}
+                true
+              {% else %}
+                {{ states(sensor) | float(999) < threshold }}
+              {% endif %}
+        sequence:
+          - action: homeassistant.turn_on
+            target:
+              entity_id: !input light_entity
+          - delay:
+              seconds: !input pir_delay
+          - condition: state
+            entity_id: !input motion_sensor
+            state: "on"
+          - condition: state
+            entity_id: !input manual_override
+            state: "off"
+          - action: homeassistant.turn_off
+            target:
+              entity_id: !input light_entity
+    default: []
