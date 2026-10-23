@@ -51,6 +51,7 @@ blueprint:
       description: >
         Optional illuminance sensor. The light is only turned on by motion when the
         measured value is below the threshold. Leave empty to disable luminance gating.
+      default: null
       selector:
         entity:
           domain: [sensor]
