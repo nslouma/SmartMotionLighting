@@ -20,6 +20,13 @@
 
 ---
 
+## 🚀 Add to Home Assistant
+
+[![Open your Home Assistant instance and show the blueprint import dialog](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://raw.githubusercontent.com/nslouma/SmartMotionLighting/main/SmartMotionLighting.yaml)
+
+> Make sure you are logged in to [my.home-assistant.io](https://my.home-assistant.io) with the same account as your Home Assistant instance. After clicking, select the target Home Assistant instance to import the blueprint.
+
+
 ## 🇬🇧 English
 
 ### Features
@@ -39,12 +46,6 @@
 - A `light` or `switch` entity
 - An `input_boolean` for manual override
 - Optional: a `sensor` for illuminance (lux)
-
-## 🚀 Add to Home Assistant
-
-[![Open your Home Assistant instance and show the blueprint import dialog](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://raw.githubusercontent.com/nslouma/SmartMotionLighting/main/SmartMotionLighting.yaml)
-
-> Make sure you are logged in to [my.home-assistant.io](https://my.home-assistant.io) with the same account as your Home Assistant instance. After clicking, select the target Home Assistant instance to import the blueprint.
 
 ### Installation
 
