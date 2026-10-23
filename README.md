@@ -28,7 +28,7 @@
 
 ## 🚀 Add to Home Assistant
 
-[![Open your Home Assistant instance and show the blueprint import dialog](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://raw.githubusercontent.com/USERNAME/REPO/main/SmartMotionLighting.yaml)
+[![Open your Home Assistant instance and show the blueprint import dialog](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://raw.githubusercontent.com/nslouma/SmartMotionLighting/main/SmartMotionLighting.yaml)
 
 > Replace `USERNAME/REPO` with your GitHub username and repository name.
 
