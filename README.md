@@ -11,7 +11,7 @@
   - [Requirements](#requirements)
   - [Installation](#installation)
   - [Input Fields](#input-fields)
-- [🇩🇿 Deutsch](#-deutsch)
+- [🇩🇪 Deutsch](#-deutsch)
   - [Funktionen](#funktionen)
   - [Voraussetzungen](#voraussetzungen)
   - [Installation](#installation-1)
@@ -69,7 +69,7 @@
 
 ---
 
-## 🇩🇿 Deutsch
+## 🇩🇪 Deutsch
 
 ### Funktionen
 
