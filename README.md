@@ -4,6 +4,20 @@
 
 ![SmartMotionLighting automation](SmartMotionLighting.png)
 
+## Table of Contents
+
+- [🇬🇧 English](#-english)
+  - [Features](#features)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+  - [Input Fields](#input-fields)
+- [🇩🇿 Deutsch](#-deutsch)
+  - [Funktionen](#funktionen)
+  - [Voraussetzungen](#voraussetzungen)
+  - [Installation](#installation-1)
+  - [Eingabefelder](#eingabefelder)
+- [📄 License](#-license)
+
 ---
 
 ## 🇬🇧 English
@@ -29,6 +43,8 @@
 ## 🚀 Add to Home Assistant
 
 [![Open your Home Assistant instance and show the blueprint import dialog](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://raw.githubusercontent.com/nslouma/SmartMotionLighting/main/SmartMotionLighting.yaml)
+
+> Make sure you are logged in to [my.home-assistant.io](https://my.home-assistant.io) with the same account as your Home Assistant instance. After clicking, select the target Home Assistant instance to import the blueprint.
 
 ### Installation
 
