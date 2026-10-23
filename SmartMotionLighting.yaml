@@ -214,9 +214,6 @@ action:
           - delay:
               seconds: !input pir_delay
           - condition: state
-            entity_id: !input motion_sensor
-            state: "on"
-          - condition: state
             entity_id: !input manual_override
             state: "off"
           - action: homeassistant.turn_off
