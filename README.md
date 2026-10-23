@@ -2,6 +2,8 @@
 
 > Smart, presence-based lighting automation for Home Assistant. Works with both `light.*` and `switch.*` entities.
 
+![SmartMotionLighting automation](SmartMotionLighting.png)
+
 ---
 
 ## 🇬🇧 English
